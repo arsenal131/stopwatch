@@ -6,14 +6,12 @@ class stopwatch{
 
 	constructor(){
 
-		console.log("init stopwatch");
-
 		this.path = "data.json";
 
 		this.lastsaved();
 		this.sti;
 		this.keyboard();
-		this.last_sec = 0;
+		this.last_sec = ((!!this.last_sec) ? this.last_sec : 0);
 		this.autosave();
 		
 	}
@@ -30,7 +28,8 @@ class stopwatch{
 
 	pause(){
 		clearInterval(this.sti);
-		console.log(`last second : ${this.last_sec}`);
+		this.save(this.data, this.path);
+		process.stdout.write("pause\n");
 	}
 
 	keyboard(){
@@ -41,6 +40,7 @@ class stopwatch{
 		stdin.on('data', function(key){
 
 			if( key === '\u0003'){
+				this.save(this.data, this.path);
 				process.exit();
 			}
 
@@ -49,6 +49,7 @@ class stopwatch{
 			}
 
 			if( key === 'r'){
+				process.stdout.write("resume\n");
 				this.run(function(time){
 					if(!!time){
 						process.stdout.write(time.d + ":" + time.h + ":" + time.m + ':' + time.s + "\n");
@@ -63,7 +64,7 @@ class stopwatch{
 		var d, h, m, s;
 		s = Math.floor(ms/1000);
 		m = Math.floor(s/60);
-		s = s % 60;
+		s = (s % 60) + 1;
 		h = Math.floor(m/60);
 		d = Math.floor(h/24);
 		h = h%24;
@@ -78,26 +79,31 @@ class stopwatch{
 	autosave(){
 
 		let interval = setInterval(function(){
-			let data = JSON.stringify({
-				last_sec: this.last_sec
-			});
-			const storeData = function(data, path){
-				try{
-					fs.writeFileSync(path, data);
-				} catch(err){
-					console.log(err);
-					return false;
-				}
-			}
-			
-			storeData(data, this.path);
+			this.save(this.data, this.path);
 		}.bind(this), 1000 * 6);
 
+	}
+
+	get data(){
+		return JSON.stringify({
+			last_sec: this.last_sec
+		});
+	}
+
+	save(data, path){
+		try{
+			fs.writeFileSync(path, data);
+		}catch(err){
+			console.log(err);
+			return false;
+		}
 	}
 	
 	lastsaved(){
 		try{
-			fs.readFileSync(this.path, 'utf8');
+			let dat = fs.readFileSync(this.path, 'utf8');
+			let dats = JSON.parse(dat);
+			this.last_sec = dats.last_sec;
 		}catch(err){
 			console.log(err);
 			return false
