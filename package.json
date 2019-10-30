@@ -1,0 +1,25 @@
+{
+  "name": "stopwatch",
+  "version": "1.0.0",
+  "description": "my coding hour counter",
+  "main": "main.js",
+  "scripts": {
+    "test": "exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arsenal131/stopwatch.git"
+  },
+  "keywords": [
+    "counter",
+    "stopwatch",
+    "coding",
+    "hour"
+  ],
+  "author": "arsenal131",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arsenal131/stopwatch/issues"
+  },
+  "homepage": "https://github.com/arsenal131/stopwatch#readme"
+}

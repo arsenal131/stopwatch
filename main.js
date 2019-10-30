@@ -39,22 +39,25 @@ class stopwatch{
 		stdin.setEncoding( 'utf8' );
 		stdin.on('data', function(key){
 
-			if( key === '\u0003'){
-				this.save(this.data, this.path);
-				process.exit();
-			}
-
-			if( key === 'p' ){
-				this.pause();
-			}
-
-			if( key === 'r'){
-				process.stdout.write("resume\n");
-				this.run(function(time){
-					if(!!time){
-						process.stdout.write(time.d + ":" + time.h + ":" + time.m + ':' + time.s + ":" + time.ms + "\n");
-					}
-				});
+			switch(key){
+				case "\u0003":
+					process.stdout.write("exit\n");
+					this.save(this.data, this.path);
+					process.exit();
+					break;
+				case "p":
+					this.pause();
+					break;
+				case "r":
+					process.stdout.write("resume\n");
+					this.run(function(time){
+						if(!!time){
+							if(time.ms % 1 === 0){
+								process.stdout.write(time.d + ":" + time.h + ":" + time.m + ':' + time.s + ":" + time.ms + "\n");
+							}
+						}
+					});
+					break;
 			}
 
 		}.bind(this))
@@ -119,8 +122,8 @@ class stopwatch{
 let sw = new stopwatch();
 sw.run(function(time){
 	if(!!time){
-		//if(time % 2 == 0){
+		if(time.ms % 1 === 0){
 			process.stdout.write(time.d + ":" + time.h + ":" + time.m + ':' + time.s + ":" + time.ms + "\n");
-		//}
+		}
 	}
 });
