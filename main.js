@@ -20,9 +20,9 @@ class stopwatch{
 		let i = ((this.last_sec === 0) ? this.last_sec : this.last_sec+1);
 		this.sti = setInterval(function(){
 			this.last_sec = i;
-			callback(this.convertMS(i * 1000));
+			callback(this.convertMS(i));
 			i++;
-		}.bind(this), 1000);
+		}.bind(this), 1);
 		return callback();
 	}
 
@@ -52,7 +52,7 @@ class stopwatch{
 				process.stdout.write("resume\n");
 				this.run(function(time){
 					if(!!time){
-						process.stdout.write(time.d + ":" + time.h + ":" + time.m + ':' + time.s + "\n");
+						process.stdout.write(time.d + ":" + time.h + ":" + time.m + ':' + time.s + ":" + time.ms + "\n");
 					}
 				});
 			}
@@ -61,18 +61,22 @@ class stopwatch{
 	}
 
 	convertMS(ms){
-		var d, h, m, s;
+		var d, h, m, s, ms;
 		s = Math.floor(ms/1000);
 		m = Math.floor(s/60);
 		s = (s % 60) + 1;
 		h = Math.floor(m/60);
+		m = (m % 60) + 1;
 		d = Math.floor(h/24);
 		h = h%24;
+		ms= Math.floor((ms/1000) * 1000) / 1000;
+
 		return {
 			d:d,
 			h:h,
 			m:m,
-			s:s
+			s:s,
+			ms:ms
 		};
 	}
 
@@ -80,7 +84,7 @@ class stopwatch{
 
 		let interval = setInterval(function(){
 			this.save(this.data, this.path);
-		}.bind(this), 1000 * 6);
+		}.bind(this), 1000 * 30);
 
 	}
 
@@ -115,6 +119,8 @@ class stopwatch{
 let sw = new stopwatch();
 sw.run(function(time){
 	if(!!time){
-		process.stdout.write(time.d + ":" + time.h + ":" + time.m + ':' + time.s + "\n");
+		//if(time % 2 == 0){
+			process.stdout.write(time.d + ":" + time.h + ":" + time.m + ':' + time.s + ":" + time.ms + "\n");
+		//}
 	}
 });
