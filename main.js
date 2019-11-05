@@ -13,6 +13,8 @@ class stopwatch{
 		this.keyboard();
 		this.last_sec = ((!!this.last_sec) ? this.last_sec : 0);
 		this.autosave();
+
+		this.run(this.write_time);
 		
 	}
 
@@ -60,23 +62,24 @@ class stopwatch{
 		}.bind(this))
 	}
 
-	convertMS(ms){
+	convertMS(raw){
 		var d, h, m, s, ms;
-		s = Math.floor(ms/1000);
+		s = Math.floor(raw/1000);
 		m = Math.floor(s/60);
 		s = (s % 60) + 1;
 		h = Math.floor(m/60);
 		m = (m % 60);
 		d = Math.floor(h/24);
 		h = h%24;
-		ms= Math.floor((ms/1000) * 1000) / 1000;
+		ms= Math.floor((raw/1000) * 1000) / 1000;
 
 		return {
 			d:d,
 			h:h,
 			m:m,
 			s:s,
-			ms:ms
+			ms:ms,
+			raw:raw
 		};
 	}
 
@@ -108,6 +111,7 @@ class stopwatch{
 			let dat = fs.readFileSync(this.path, 'utf8');
 			let dats = JSON.parse(dat);
 			this.last_sec = dats.last_sec;
+			return this;
 		}catch(err){
 			console.log(err);
 			return false
@@ -125,7 +129,7 @@ class stopwatch{
 
 	write_time(time){
 		if(!!time){
-			if(time.ms % 1 === 0){
+			if(time.raw % 1000 === 0){
 				process.stdout.write(time.d + ":" + time.h + ":" + time.m + ':' + time.s + ":" + time.ms + "\n");
 			}
 		}
@@ -134,15 +138,3 @@ class stopwatch{
 }
 
 let sw = new stopwatch();
-
-/*
-sw.run(function(time){
-	if(!!time){
-		if(time.ms % 1 === 0){
-			process.stdout.write(time.d + ":" + time.h + ":" + time.m + ':' + time.s + ":" + time.ms + "\n");
-		}
-	}
-});
-*/
-
-sw.run(sw.write_time);
