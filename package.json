@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/arsenal131/stopwatch#readme",
   "dependencies": {
-    "mysql2": "^2.0.0"
+    "mariadb": "^2.1.2",
+    "mysql2": "^2.0.0",
+    "sequelize": "^5.21.2"
   }
 }
