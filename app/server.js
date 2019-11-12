@@ -6,7 +6,7 @@ app.use( bodyParser.json() );
 
 const db = require("../app/config/db.config.js");
 
-db.sequelize.sync({force:true})
+db.sequelize.sync({force:false})
   .then(function(){
       console.log("Drop table and resync with {force:true}");
   });
