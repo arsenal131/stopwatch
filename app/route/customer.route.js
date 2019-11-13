@@ -1,4 +1,6 @@
 module.exports = function(app){
+
+  //customer
   
   const customers = require('../controller/customer.controller.js');
   
@@ -11,5 +13,5 @@ module.exports = function(app){
   app.put('/api/customers/:customerId', customers.update);
 
   app.delete('/api/customers/:customerId', customers.delete);
-  
+
 }

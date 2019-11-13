@@ -44,8 +44,8 @@ module.exports.update = function(req, res){
               }
               return customer
                           .update({
-                            name: req.body.name,
-                            age: req.body.age
+                            codingTime: req.body.codingTime,
+                            storeReason: req.body.storeReason
                           })
                           .then(function(){
                             res.status(200).json(customer)
@@ -104,3 +104,4 @@ module.exports.delete = function(req, res){
             })
 
 }
+

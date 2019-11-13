@@ -8,15 +8,16 @@ const db = require("../app/config/db.config.js");
 
 db.sequelize.sync({force:false})
   .then(function(){
-      console.log("Drop table and resync with {force:true}");
+      console.log("sync with db {force:false}");
   });
 
 require("../app/route/customer.route.js")(app);
+require("../app/route/codingHour.route.js")(app);
 
 var server = app.listen(8081, function(){
 
-  var host = this.address().address;
-  var port = this.address().port;
+  var host = server.address().address;
+  var port = server.address().port;
 
   console.log("App listening at http://%s:%s, host, port");
 
