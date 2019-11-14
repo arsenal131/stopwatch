@@ -13,6 +13,7 @@ db.sequelize.sync({force:false})
 
 require("../app/route/customer.route.js")(app);
 require("../app/route/codingHour.route.js")(app);
+require("../app/route/registration.route.js")(app);
 
 var server = app.listen(8081, function(){
 
