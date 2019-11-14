@@ -30,5 +30,6 @@ db.Sequelize 	= Sequelize;
 db.sequelize 	= sequelize;
 db.customers 	= require('../model/customer.model.js')(sequelize, Sequelize);
 db.codingHours 	= require('../model/codingHour.model.js')(sequelize, Sequelize);
+db.registrations= require('../model/registration.model.js')(sequelize, Sequelize);
 
 module.exports = db;
